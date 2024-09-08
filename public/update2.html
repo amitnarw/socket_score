@@ -1,0 +1,35 @@
+<!-- public/update2.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Score 2</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Update Score 2</h1>
+    <input type="text" id="player" placeholder="Player Name">
+    <input type="number" id="score" placeholder="Score">
+    <button onclick="updateScore()">Update Score</button>
+
+    <script>
+        const socket = io();
+
+        function updateScore() {
+            const player = document.getElementById('player').value;
+            const score = document.getElementById('score').value;
+            if (player && score !== '') {
+                const scoreData = {
+                    player: player,
+                    score: parseInt(score, 10)
+                };
+                socket.emit('updateScore', scoreData);
+                alert('Score updated!');
+            } else {
+                alert('Please enter both player name and score.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!-- public/view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Scores</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        #scoreboard {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .score-entry {
+            padding: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scoreboard</h1>
+    <div id="scoreboard"></div>
+
+    <script>
+        const socket = io();
+        const scoreboard = document.getElementById('scoreboard');
+
+        socket.on('scoreUpdate', (scoreData) => {
+            let entry = document.getElementById(scoreData.player);
+            if (!entry) {
+                entry = document.createElement('div');
+                entry.id = scoreData.player;
+                entry.className = 'score-entry';
+                scoreboard.appendChild(entry);
+            }
+            entry.innerHTML = `Player: ${scoreData.player}, Score: ${scoreData.score}`;
+        });
+    </script>
+</body>
+</html>
